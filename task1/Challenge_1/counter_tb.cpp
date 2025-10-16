@@ -1,11 +1,12 @@
 #include "Vcounter.h"
 #include "verilated.h"
 #include "verilated_vcd_c.h"
+#include "iostream"
 
 int main(int argc, char **argv, char **env){
     int i;
     int clk;
-    int tick= top->count;
+    int tick =0;
     Verilated::commandArgs(argc, argv);
     // init top verilog instance
     Vcounter* top = new Vcounter;
@@ -23,9 +24,17 @@ int main(int argc, char **argv, char **env){
     //run simulation for many clock cycles
     for (i=0; i<300; i++){
         // dump variables in vcd file and toggle clock
-
-        top->en = !(tick == 9); 
-        std::cout<<tick<<std::endl;
+        std::cout << (int(top->count)) << std::endl;
+        if (i>4){
+            if(int(top->count) == 9 && tick !=3){
+                top->en = 0;
+                tick++;
+            }
+            else{
+                top->en = 1;
+                tick =0;
+            }
+        }
         for(clk =0; clk<2; clk++){
             tfp->dump (2*i+clk);
             top->clk = !top->clk;
