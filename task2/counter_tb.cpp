@@ -33,7 +33,7 @@ int main(int argc, char **argv, char **env){
             top->eval ();
         }
 
-
+        /*
         // +++++++  Send count value to Vbuddy
         vbdHex(4, (int(top->count) >> 16)&0xF);
         vbdHex(3, (int(top->count) >> 8)&0xF);
@@ -41,7 +41,10 @@ int main(int argc, char **argv, char **env){
         vbdHex(1, int(top->count) &0xF);
         vbdCycle(i+1);
         // -------- end of Vbuddy output section
-        
+        */
+        vbdPlot(int(top->count), 0, 255);
+        vbdCycle(i+1);
+
         // change input stimuli
         top->rst = (i<2) | (i==15);
         top->en = vbdFlag();
